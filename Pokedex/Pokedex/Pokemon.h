@@ -12,8 +12,11 @@ public:
 		mSpecies = "";
 		mHeight = 0;
 		mWeight = 0;
-		mType1 = "";
-		mType2 = "";
+		mType1id = "";
+		mType2id = "";
+		mType1Name = "";
+		mType2Name = "";
+
 	}
 	Pokemon::Pokemon(const Pokemon& copy)
 	{
@@ -22,8 +25,11 @@ public:
 		mSpecies = copy.mSpecies;
 		mHeight = copy.mHeight;
 		mWeight = copy.mWeight;
-		mType1 = copy.mType1;
-		mType2 = copy.mType2;
+		mType1id = copy.mType1id;
+		mType2id = copy.mType2id;
+		mType1Name = copy.mType1Name;
+		mType2Name = copy.mType2Name;
+
 	}
 	Pokemon::~Pokemon()
 	{
@@ -49,15 +55,23 @@ public:
 	{
 		return mWeight;
 	}
-	std::string Pokemon::getType1() const
+	std::string Pokemon::getType1id() const
 	{
-		return mType1;
+		return mType1id;
 	}
 
-	std::string Pokemon::getType2() const
+	std::string Pokemon::getType2id() const
 	{
 		//if (!mType2.empty())
-		return mType2; // Not all Pokemon have a second type, so we gotta check to see if a Pokemon has a second  type
+		return mType2id; // Not all Pokemon have a second type, so we gotta check to see if a Pokemon has a second  type
+	}
+	std::string Pokemon::getType1Name() const
+	{
+		return mType1Name;
+	}
+	std::string Pokemon::getType2Name() const
+	{
+		return mType2Name;
 	}
 
 	void Pokemon::setName(const std::string newName)
@@ -80,13 +94,34 @@ public:
 	{
 		mWeight = newWeight;
 	}
-	void Pokemon::setType1(const std::string newType1)
+	void Pokemon::setType1id(const std::string newType1)
 	{
-		mType1 = newType1;
+		mType1id = newType1;
 	}
-	void Pokemon::setType2(const std::string newType2) //Not all Pokemon have a second type,
+	void Pokemon::setType2id(const std::string newType2) //Not all Pokemon have a second type,
 	{
-		mType2 = newType2;
+		mType2id = newType2;
+	}
+	void Pokemon::setType1Name(const std::string newType1)
+	{
+		mType1Name = newType1;
+	}
+	void Pokemon::setType2Name(const std::string newType2)
+	{
+		mType2Name = newType2;
+	}
+
+	Pokemon& Pokemon::operator=(const Pokemon & rhs)
+	{
+		mName = rhs.mName;
+		mId = rhs.mId;
+		mSpecies = rhs.mSpecies;
+		mHeight = rhs.mHeight;
+		mWeight = rhs.mWeight;
+		mType1id = rhs.mType1id;
+		mType2id = rhs.mType2id;
+		
+		return *this;
 	}
 
 private:
@@ -95,6 +130,8 @@ private:
 	std::string mSpecies;
 	int mHeight;
 	int mWeight;
-	std::string mType1;
-	std::string mType2;
+	std::string mType1id;
+	std::string mType2id;
+	std::string mType1Name;
+	std::string mType2Name;
 };

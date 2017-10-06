@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include "DexNode.h"
+#include <conio.h>
+#include <string.h>
 
 #define NORMAL 1	
 #define FIGHTING 2
@@ -24,6 +26,8 @@
 #define FAIRY 18
 
 char* intToType(std::string typeNum);
+#include <iostream>
+using namespace std;
 
 class Dex
 {
@@ -33,33 +37,233 @@ public:
 		headPkmn = nullptr;
 	}
 
-	Dex::Dex(const Dex& copy)
+	//copy constructor
+	Dex::Dex(const Dex& other)
 	{
+		DexNode* pOther = other.headPkmn;
 
+		while (pOther != nullptr)
+		{
+			this->insertAtEnd(pOther);
+			pOther = pOther->getNextPkmn();
+		}
 	}
+
 	Dex::~Dex()
 	{
-
+		
 	}
 
 	void Dex::printDex()
 	{
+		system("cls");
 		DexNode* pCur = headPkmn;
-		std::cout << "ID   Name   Height   Weight" << std::endl;
-		while (pCur != nullptr)
+		int i = 0;
+		std::cout << "ID   Name    Height   Weight Type1   Type2" << std::endl;
+		while (i < 721)
 		{
 			pCur->printPkmn();
 			pCur = pCur->getNextPkmn();
+			i++;
+			
+		}
+	/*	while (1)
+		{
+			cout << "Press any button to return to the Dex Menu" << endl;
+			if (getch)
+			{
+				break;
+			}
+		}*/
+	}
+
+	void printByRegion()
+	{
+		int RegionChoice = 0, i = 1;
+		DexNode* pCur = headPkmn;
+		system("cls");
+
+		cout << "Choose a Region:" << endl;
+		cout << "1. KANTO    2. JOHTO   3. HOENN\n4. SINNOH   5. UNOVA   6. KALOS" << endl;
+		cin >> RegionChoice; 
+
+		//KANTO
+		if (RegionChoice == 1)
+		{
+			system("cls");
+			cout << "KANTO POKEDEX" << endl;
+			while (i < 151)
+			{
+				pCur->printPkmn();
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+		}
+
+		//JOHTO
+		else if (RegionChoice == 2)
+		{
+			system("cls");
+			cout << "JOHTO POKEDEX" << endl;
+			while (i < 152)
+			{
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+			while (i < 252)
+			{
+				pCur->printPkmn();
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+		}
+
+		//HOENN
+		else if (RegionChoice == 3)
+		{
+			system("cls");
+			cout << "HOENN POKEDEX" << endl;
+			while (i < 252)
+			{
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+			while (i < 387)
+			{
+				pCur->printPkmn();
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+		}
+
+		//SINNOH
+		else if (RegionChoice == 4)
+		{
+			system("cls");
+			cout << "SINNOH POKEDEX" << endl;
+			while (i < 387)
+			{
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+			while (i < 494)
+			{
+				pCur->printPkmn();
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+		}
+
+		//UNOVA
+		else if (RegionChoice == 5)
+		{
+			system("cls");
+			cout << "UNOVA POKEDEX" << endl;
+			while (i < 494)
+			{
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+			while (i < 650)
+			{
+				pCur->printPkmn();
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+		}
+
+		//KALOS
+		else if (RegionChoice == 6)
+		{
+			system("cls");
+			cout << "KALOS POKEDEX" << endl;
+			while (i < 650)
+			{
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
+			while (i < 722)
+			{
+				pCur->printPkmn();
+				pCur = pCur->getNextPkmn();
+				i++;
+			}
 		}
 	}
 
-	bool Dex::initializePkmnHeightWeight()
+	void ManualView()
+	{
+		DexNode* pCur = headPkmn;
+		system("cls");
+		int c = '\0';
+		bool exit = false;
+
+		cout << "Manual View\nUse 'A to go right, 'D' to go left." << endl;
+		
+		pCur->printPkmn();
+
+		while (!exit)
+		{
+				switch (getch()) { // the real value
+				case 'a':
+				case 'A':
+					system("cls");
+					cout << "Manual View\nUse 'A to go right, 'D' to go left." << endl;
+					pCur = pCur->getNextPkmn();
+					pCur->printPkmn();
+					//code for right arrow
+					break;
+				case 'd':
+				case 'D':
+					system("cls");
+					cout << "Manual View\nUse 'A to go right, 'D' to go left." << endl;
+					pCur = pCur->getPrevPkmn();
+					pCur->printPkmn();
+					// code for arrow left
+					break;
+				default:
+					exit = true;
+					break;
+				}
+		}
+	}
+
+	void Dex::listByTypeMenu()
+	{
+		string choice;
+		cout << "Select a Type:" << endl;
+		cout << "1. Normal" << endl;
+		cout << "2. Fighting" << endl;
+		cout << "3. Flying" << endl;
+		cout << "4. Poison" << endl;
+		cout << "5. Ground " << endl;
+		cout << "6. Rock" << endl;
+		cout << "7. Bug" << endl;
+		cout << "8. Ghost" << endl;
+		cout << "9. Steel" << endl;
+		cout << "10. Fire" << endl;
+		cout << "11. Water" << endl;
+		cout << "12. Grass" << endl;
+		cout << "13. Electric" << endl;
+		cout << "14. Psychic" << endl;
+		cout << "15. Ice" << endl;
+		cout << "16. Dragon" << endl;
+		cout << "17. Dark" << endl;
+		cout << "18. Fairy" << endl;
+		cin >> choice;
+
+		
+			
+	}
+
+	bool Dex::initializePkmnNameHeightWeight()
 	{
 		int id = 0;
 		double height = 0, weight = 0;
 		std::string  str, name, species;
 		Pokemon newPkmn;
 		DexNode* newNode = nullptr;
+		std::fstream mFile;
 
 		mFile.open("pokemon.csv", std::ios::in);
 		mFile.clear();
@@ -94,16 +298,18 @@ public:
 
 			if (newNode == nullptr)
 			{
-				std::cout << "Something went wrong with creating new DexNode! Pokemon Not initialized";
+				std::cout << "Something went wrong with creating new DexNode! Pokemon Not initialized" << endl;
 			}
 			else
 			{
-				insertAtEnd(newNode, *this);
+				insertAtEnd(newNode);
 			}
 		}
 		mFile.close();
 		if (headPkmn != nullptr)
 		{
+			headPkmn->setPrevPkmn(lastPkmn);
+			lastPkmn->setNextPkmn(headPkmn);
 			return true;
 		}
 		return false;
@@ -116,6 +322,8 @@ public:
 		//File Format: ID, Type ID, Slot Number
 		std::string str, id, type, slot;
 		DexNode* pCur = headPkmn;
+		std::fstream mFile;
+
 		mFile.open("Types.csv", std::ios::in);
 		mFile.clear();
 		mFile.seekg(0, std::ios::beg);
@@ -135,42 +343,61 @@ public:
 			slot = str;
 			if (atoi(slot.c_str()) == 1)
 			{
-				pCur->getPokemon().setType1(type);  //insert type into correct type
+				pCur->getPokemon().setType1Name(type);  //insert type into correct type
 			}
 			else if (atoi(slot.c_str()) == 2)
 			{
-				pCur->getPokemon().setType2(type);//insert type into correct type
+				pCur->getPokemon().setType2Name(type);//insert type into correct type
 			}
 		}
 		mFile.close();
-		if (headPkmn->getPokemon().getType1() != "")
+		if (headPkmn->getPokemon().getType1Name() != "")
 		{
 			return true;
 		}
 		return false;
 	}
+
+	void Dex::deleteDexHelper()
+	{
+		this->deleteHelper(this->headPkmn);
+	}
+
 private:
 	DexNode* headPkmn;
 	DexNode* lastPkmn;
-	std::fstream mFile;
+	
 
 	//precondition: newNode is NOT null
 	//Should Dex ALWAYS insert at end? Well it will using this function
-	bool Dex::insertAtEnd(DexNode* newNode, Dex& Pokedex)
+	bool Dex::insertAtEnd(DexNode* newNode)
 	{
 		if (headPkmn == nullptr)
 		{
-			Pokedex.headPkmn = newNode;
-			Pokedex.lastPkmn = newNode;
+			this->headPkmn = newNode;
+			this->lastPkmn = newNode;
 			return true;
 		}
 		else
 		{
-			Pokedex.lastPkmn->setNextPkmn(newNode);  //Originally, this had the lastPkmn pointer retrieving the next pokemon and setting it's next ptr to node
-			Pokedex.lastPkmn = newNode;                             //We then made it so that lassPkmn has its nextPkmn set to newNode
+			newNode->setPrevPkmn(this->lastPkmn);
+			this->lastPkmn->setNextPkmn(newNode);  //Originally, this had the lastPkmn pointer retrieving the next pokemon and setting it's next ptr to node
+			this->lastPkmn = newNode;                             //We then made it so that lassPkmn has its nextPkmn set to newNode
 			return  true;
 		}
 		return false;
+	}
+
+	
+
+	void deleteHelper(DexNode* &node)
+	{
+		while (node)
+		{
+			DexNode* temp = node;
+			node = node->getNextPkmn();
+			delete temp;
+		}
 	}
 };
 

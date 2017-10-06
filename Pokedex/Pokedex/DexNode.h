@@ -6,21 +6,16 @@
 class DexNode
 {
 public:
-	DexNode::DexNode(/*std::string newName, int newId, std::string newSpecies, double newHeight, double newWeight, std::string newType1, std::string newType2*/)
+	DexNode::DexNode()
 	{
-		/*this->mPokemon.setName(newName);
-		this->mPokemon.setId(newId);
-		this->mPokemon.setSpecies(newSpecies);
-		this->mPokemon.setHeight(newHeight);
-		this->mPokemon.setWeight(newWeight);
-		this->mPokemon.setType1(newType1);
-		this->mPokemon.setType2(newType2);*/
 		nextPkmn = nullptr;
+		prevPkmn = nullptr;
 	}
 	DexNode::DexNode(const DexNode& copy)
 	{
 
 	}
+
 	DexNode::~DexNode()
 	{
 
@@ -35,10 +30,22 @@ public:
 	{
 		return nextPkmn;
 	}
+
+	DexNode* DexNode::getPrevPkmn()
+	{
+		return prevPkmn;
+	}
+
 	void setNextPkmn( DexNode* newPkmn)
 	{
 		nextPkmn = newPkmn;
 	}
+
+	void setPrevPkmn(DexNode* newPkmn)
+	{
+		prevPkmn = newPkmn;
+	}
+
 	void DexNode::printPkmn()
 	{
 
@@ -46,8 +53,8 @@ public:
 		std::cout << this->getPokemon().getName() << " ";
 		std::cout << this->getPokemon().getHeight() << " ";
 		std::cout << this->getPokemon().getWeight() << " ";
-		std::cout << this->getPokemon().getType1() << " ";
-		std::cout << this->getPokemon().getType2() << std::endl;
+		std::cout << this->getPokemon().getType1Name() << " ";
+		std::cout << this->getPokemon().getType2Name() << std::endl;
 	}
 	void setPkmn(Pokemon newPkmn)
 	{
@@ -57,5 +64,6 @@ public:
 private:
 	Pokemon mPokemon;
 	DexNode* nextPkmn;
+	DexNode* prevPkmn;
 };
 
