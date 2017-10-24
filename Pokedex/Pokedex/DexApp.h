@@ -31,7 +31,7 @@ public:
 			cout << "1. Print Dex" << endl;
 			cout << "2. View by Region" << endl;
 			cout << "3. Manual View" << endl;
-			cout << "4. Exit" << endl;
+			cout << "4. List by Type" << endl;
 			cin >> option;
 			if (option == 1)
 			{
@@ -47,7 +47,7 @@ public:
 			}
 			else if (option == 4)
 			{
-				break;
+				mPokeDex.listByTypeMenu();
 			}
 		}
 	}

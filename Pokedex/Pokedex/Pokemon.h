@@ -18,6 +18,7 @@ public:
 		mType2Name = "";
 
 	}
+
 	Pokemon::Pokemon(const Pokemon& copy)
 	{
 		mName = copy.mName;
@@ -33,6 +34,18 @@ public:
 	}
 	Pokemon::~Pokemon()
 	{
+	}
+
+	void Pokemon::printPkmn()
+	{
+
+		std::cout << "# " << this->getId() << std::endl;
+		std::cout << this->getName() << std::endl;
+		std::cout << "Height: " << this->getHeight() << std::endl;
+		std::cout << "Weight: " << this->getWeight() << std::endl;
+		std::cout << "Type 1: " << this->getType1Name() << std::endl;
+		std::cout << "Type 2: " << this->getType2Name() << std::endl;
+		std::cout << std::endl;
 	}
 
 	std::string Pokemon::getName() const

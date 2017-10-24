@@ -5,6 +5,8 @@
 #include "DexNode.h"
 #include <conio.h>
 #include <string.h>
+#include <vector>
+using std::vector;
 
 #define NORMAL 1	
 #define FIGHTING 2
@@ -34,19 +36,19 @@ class Dex
 public:
 	Dex::Dex()
 	{
-		headPkmn = nullptr;
+		//headPkmn = nullptr;
+		currentPkmnCount = 0;
+		Pokemon newPkmn;
+		dexVector.push_back(newPkmn);
+
 	}
 
 	//copy constructor
 	Dex::Dex(const Dex& other)
 	{
-		DexNode* pOther = other.headPkmn;
-
-		while (pOther != nullptr)
-		{
-			this->insertAtEnd(pOther);
-			pOther = pOther->getNextPkmn();
-		}
+		
+		this->dexVector = other.dexVector;
+		this->currentPkmnCount = other.currentPkmnCount;
 	}
 
 	Dex::~Dex()
@@ -57,30 +59,20 @@ public:
 	void Dex::printDex()
 	{
 		system("cls");
-		DexNode* pCur = headPkmn;
-		int i = 0;
-		std::cout << "ID   Name    Height   Weight Type1   Type2" << std::endl;
-		while (i < 721)
+
+		int i = 1;
+		//std::cout << "ID   Name    Height   Weight Type1   Type2" << std::endl;
+		while (i <= 721)
 		{
-			pCur->printPkmn();
-			pCur = pCur->getNextPkmn();
+			dexVector.at(i).printPkmn();
 			i++;
-			
 		}
-	/*	while (1)
-		{
-			cout << "Press any button to return to the Dex Menu" << endl;
-			if (getch)
-			{
-				break;
-			}
-		}*/
+		system("pause");
 	}
 
 	void printByRegion()
 	{
 		int RegionChoice = 0, i = 1;
-		DexNode* pCur = headPkmn;
 		system("cls");
 
 		cout << "Choose a Region:" << endl;
@@ -92,10 +84,9 @@ public:
 		{
 			system("cls");
 			cout << "KANTO POKEDEX" << endl;
-			while (i < 151)
+			while (i < 152)
 			{
-				pCur->printPkmn();
-				pCur = pCur->getNextPkmn();
+				dexVector.at(i).printPkmn();
 				i++;
 			}
 		}
@@ -105,15 +96,10 @@ public:
 		{
 			system("cls");
 			cout << "JOHTO POKEDEX" << endl;
-			while (i < 152)
-			{
-				pCur = pCur->getNextPkmn();
-				i++;
-			}
+			i = 152;
 			while (i < 252)
 			{
-				pCur->printPkmn();
-				pCur = pCur->getNextPkmn();
+				dexVector.at(i).printPkmn();
 				i++;
 			}
 		}
@@ -123,15 +109,10 @@ public:
 		{
 			system("cls");
 			cout << "HOENN POKEDEX" << endl;
-			while (i < 252)
-			{
-				pCur = pCur->getNextPkmn();
-				i++;
-			}
+			i = 252;
 			while (i < 387)
 			{
-				pCur->printPkmn();
-				pCur = pCur->getNextPkmn();
+				dexVector.at(i).printPkmn();
 				i++;
 			}
 		}
@@ -141,15 +122,10 @@ public:
 		{
 			system("cls");
 			cout << "SINNOH POKEDEX" << endl;
-			while (i < 387)
-			{
-				pCur = pCur->getNextPkmn();
-				i++;
-			}
+			i = 387;
 			while (i < 494)
 			{
-				pCur->printPkmn();
-				pCur = pCur->getNextPkmn();
+				dexVector.at(i).printPkmn();
 				i++;
 			}
 		}
@@ -159,15 +135,10 @@ public:
 		{
 			system("cls");
 			cout << "UNOVA POKEDEX" << endl;
-			while (i < 494)
-			{
-				pCur = pCur->getNextPkmn();
-				i++;
-			}
+			i = 494;
 			while (i < 650)
 			{
-				pCur->printPkmn();
-				pCur = pCur->getNextPkmn();
+				dexVector.at(i).printPkmn();
 				i++;
 			}
 		}
@@ -177,15 +148,10 @@ public:
 		{
 			system("cls");
 			cout << "KALOS POKEDEX" << endl;
-			while (i < 650)
-			{
-				pCur = pCur->getNextPkmn();
-				i++;
-			}
+			i = 650;
 			while (i < 722)
 			{
-				pCur->printPkmn();
-				pCur = pCur->getNextPkmn();
+				dexVector.at(i).printPkmn();
 				i++;
 			}
 		}
@@ -193,38 +159,50 @@ public:
 
 	void ManualView()
 	{
-		DexNode* pCur = headPkmn;
 		system("cls");
 		int c = '\0';
 		bool exit = false;
 
 		cout << "Manual View\nUse 'A to go right, 'D' to go left." << endl;
 		
-		pCur->printPkmn();
+		int i = 1;
+		dexVector.at(i).printPkmn();
 
 		while (!exit)
 		{
+	
 				switch (getch()) { // the real value
-				case 'a':
-				case 'A':
-					system("cls");
-					cout << "Manual View\nUse 'A to go right, 'D' to go left." << endl;
-					pCur = pCur->getNextPkmn();
-					pCur->printPkmn();
-					//code for right arrow
-					break;
 				case 'd':
 				case 'D':
 					system("cls");
+					i++;
+					if (i > 721)
+						i = 1;
+					else if (i < 1)
+						i = 721;
 					cout << "Manual View\nUse 'A to go right, 'D' to go left." << endl;
-					pCur = pCur->getPrevPkmn();
-					pCur->printPkmn();
+					dexVector.at(i).printPkmn();
+				
+					//code for right arrow
+					break;
+				case 'a':
+				case 'A':
+					system("cls");
+					i--;
+					if (i > 721)
+						i = 1;
+					else if (i < 1)
+						i = 721;
+					cout << "Manual View\nUse 'A to go right, 'D' to go left." << endl;
+					dexVector.at(i).printPkmn();
+					
 					// code for arrow left
 					break;
 				default:
 					exit = true;
 					break;
 				}
+				
 		}
 	}
 
@@ -252,17 +230,75 @@ public:
 		cout << "18. Fairy" << endl;
 		cin >> choice;
 
+		switch (stoi(choice))
+		{
+		case NORMAL:
+			listByTypeHelper(NORMAL);
+			break;
+		case FIGHTING:
+			listByTypeHelper(FIGHTING);
+			break;
+		case FLYING:
+			listByTypeHelper(FLYING);
+			break;
+		case POISON:
+			listByTypeHelper(POISON);
+			break;
+		case GROUND:
+			listByTypeHelper(GROUND);
+			break;
+		case ROCK:
+			listByTypeHelper(ROCK);
+			break;
+		case BUG:
+			listByTypeHelper(BUG);
+			break;
+		case GHOST:
+			listByTypeHelper(GHOST);
+			break;
+		case STEEL:
+			listByTypeHelper(STEEL);
+			break;
+		case FIRE:
+			listByTypeHelper(FIRE);
+			break;
+		case WATER:
+			listByTypeHelper(WATER);
+			break;
+		case GRASS:
+			listByTypeHelper(GRASS);
+			break;
+		case ELECTRIC:
+			listByTypeHelper(ELECTRIC);
+			break;
+		case PSYCHIC:
+			listByTypeHelper(PSYCHIC);
+			break;
+		case ICE:
+			listByTypeHelper(ICE);
+			break;
+		case DRAGON:
+			listByTypeHelper(DRAGON);
+			break;
+		case DARK:
+			listByTypeHelper(DARK);
+			break;
+		case FAIRY:
+			listByTypeHelper(FAIRY);
+			break;
+		default:
+			break;
+		}
 		
 			
 	}
 
-	bool Dex::initializePkmnNameHeightWeight()
+	void Dex::initializePkmnNameHeightWeight()
 	{
 		int id = 0;
 		double height = 0, weight = 0;
 		std::string  str, name, species;
 		Pokemon newPkmn;
-		DexNode* newNode = nullptr;
 		std::fstream mFile;
 
 		mFile.open("pokemon.csv", std::ios::in);
@@ -287,32 +323,19 @@ public:
 			getline(mFile, str, '\n');
 			weight = atoi(str.c_str());
 
-			newNode = new DexNode();
-
 			newPkmn.setId(id);
 			newPkmn.setName(name);
 			newPkmn.setSpecies(species);
 			newPkmn.setHeight(height);
 			newPkmn.setWeight(weight);
-			newNode->setPkmn(newPkmn);
+			
+			currentPkmnCount++;
+			dexVector.push_back(newPkmn);
 
-			if (newNode == nullptr)
-			{
-				std::cout << "Something went wrong with creating new DexNode! Pokemon Not initialized" << endl;
-			}
-			else
-			{
-				insertAtEnd(newNode);
-			}
+
 		}
-		mFile.close();
-		if (headPkmn != nullptr)
-		{
-			headPkmn->setPrevPkmn(lastPkmn);
-			lastPkmn->setNextPkmn(headPkmn);
-			return true;
-		}
-		return false;
+
+	//	return false;
 
 	}
 
@@ -320,9 +343,9 @@ public:
 	bool Dex::initializeTypes()
 	{
 		//File Format: ID, Type ID, Slot Number
-		std::string str, id, type, slot;
-		DexNode* pCur = headPkmn;
+		std::string str, id, type, slot, typeName;
 		std::fstream mFile;
+		int idInt = 0;
 
 		mFile.open("Types.csv", std::ios::in);
 		mFile.clear();
@@ -330,28 +353,35 @@ public:
 		getline(mFile, str);  //eats up the header of the file
 		while (!mFile.eof())
 		{
-			getline(mFile, str, ',');
-			id = str;     //reads the Pokemon ID 
-			while (atoi(id.c_str()) != pCur->getPokemon().getId())  //makes sure we are inserting info into the right pokemon by moving through the file 
-			{														//till we find the correct pokemon
-				pCur = pCur->getNextPkmn();							//We will update this once the list is made doubly linked
-			}
-			getline(mFile, str, ',');  //we  now get the actual type, which will be a int value representing the actual type
-			type = str;
-			type = intToType(type);  //converts the int representation of a type into the actual type
-			getline(mFile, str, '\n'); ////this determines if this type will be the first type or second 
-			slot = str;
+			getline(mFile, id, ',');  //reads the Pokemon ID 
+			idInt = atoi(id.c_str());
+			//while (atoi(id.c_str()) != pCur->getPokemon().getId())  //makes sure we are inserting info into the right pokemon by moving through the file 
+			//{														//till we find the correct pokemon
+			//	pCur = pCur->getNextPkmn();							//We will update this once the list is made doubly linked
+			//}
+
+
+
+
+			getline(mFile, type, ',');  //we  now get the actual type, which will be a int value representing the actual type
+		
+			typeName = intToType(type);  //converts the int representation of a type into the actual type
+			getline(mFile, slot, '\n'); ////this determines if this type will be the first type or second 
+
 			if (atoi(slot.c_str()) == 1)
 			{
-				pCur->getPokemon().setType1Name(type);  //insert type into correct type
+				dexVector.at(idInt).setType1Name(typeName);  //insert type into correct type
+				dexVector.at(idInt).setType1id(type);
+				dexVector.at(idInt).setType2id("-1");
 			}
 			else if (atoi(slot.c_str()) == 2)
 			{
-				pCur->getPokemon().setType2Name(type);//insert type into correct type
+				dexVector.at(idInt).setType2Name(typeName);//insert type into correct type
+				dexVector.at(idInt).setType2id(type);
 			}
 		}
 		mFile.close();
-		if (headPkmn->getPokemon().getType1Name() != "")
+		if (dexVector.at(1).getType1Name() != "")
 		{
 			return true;
 		}
@@ -360,44 +390,55 @@ public:
 
 	void Dex::deleteDexHelper()
 	{
-		this->deleteHelper(this->headPkmn);
+		//this->deleteHelper(this->headPkmn);
 	}
 
 private:
-	DexNode* headPkmn;
-	DexNode* lastPkmn;
+	// DexNode* headPkmn;
+	//DexNode * lastPkmn;
+	vector<Pokemon> dexVector;
+	int currentPkmnCount;
 	
-
+	//Removed in favor of vector implementation of dex
 	//precondition: newNode is NOT null
 	//Should Dex ALWAYS insert at end? Well it will using this function
-	bool Dex::insertAtEnd(DexNode* newNode)
+	//bool Dex::insertAtEnd(DexNode* newNode)
+	//{
+	//	if (headPkmn == nullptr)
+	//	{
+	//		this->headPkmn = newNode;
+	//		this->lastPkmn = newNode;
+	//		return true;
+	//	}
+	//	else
+	//	{
+	//		newNode->setPrevPkmn(this->lastPkmn);
+	//		this->lastPkmn->setNextPkmn(newNode);  //Originally, this had the lastPkmn pointer retrieving the next pokemon and setting it's next ptr to node
+	//		this->lastPkmn = newNode;                             //We then made it so that lassPkmn has its nextPkmn set to newNode
+	//		return  true;
+	//	}
+	//	return false;
+	//}
+
+	void listByTypeHelper(int type)
 	{
-		if (headPkmn == nullptr)
+	//	DexNode* pCur = headPkmn;
+		int i = 1;
+		while (i < TOTALPKMN)
 		{
-			this->headPkmn = newNode;
-			this->lastPkmn = newNode;
-			return true;
+			if (stoi(dexVector.at(i).getType1id()) == type || stoi(dexVector.at(i).getType2id()) == type)
+			{
+				dexVector.at(i).printPkmn();
+			}
+			i++;
 		}
-		else
-		{
-			newNode->setPrevPkmn(this->lastPkmn);
-			this->lastPkmn->setNextPkmn(newNode);  //Originally, this had the lastPkmn pointer retrieving the next pokemon and setting it's next ptr to node
-			this->lastPkmn = newNode;                             //We then made it so that lassPkmn has its nextPkmn set to newNode
-			return  true;
-		}
-		return false;
+		while(1)
+		{ }
 	}
 
-	
-
-	void deleteHelper(DexNode* &node)
+	void deleteHelper(void)
 	{
-		while (node)
-		{
-			DexNode* temp = node;
-			node = node->getNextPkmn();
-			delete temp;
-		}
+		
 	}
 };
 
