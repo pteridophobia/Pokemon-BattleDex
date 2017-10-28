@@ -2,6 +2,7 @@
 #include <string>
 
 
+
 class Pokemon
 {
 public:
@@ -44,7 +45,8 @@ public:
 		std::cout << "Height: " << this->getHeight() << std::endl;
 		std::cout << "Weight: " << this->getWeight() << std::endl;
 		std::cout << "Type 1: " << this->getType1Name() << std::endl;
-		std::cout << "Type 2: " << this->getType2Name() << std::endl;
+		if(!this->getType2Name().empty())
+			std::cout << "Type 2: " << this->getType2Name() << std::endl;
 		std::cout << std::endl;
 	}
 

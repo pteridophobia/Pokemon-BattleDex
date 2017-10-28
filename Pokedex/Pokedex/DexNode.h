@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include "Pokemon.h"
-#define TOTALPKMN 721
+#define TOTALPKMN 803
 
 class DexNode
 {

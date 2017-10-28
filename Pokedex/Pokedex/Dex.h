@@ -8,6 +8,7 @@
 #include <vector>
 using std::vector;
 
+
 #define NORMAL 1	
 #define FIGHTING 2
 #define FLYING 3
@@ -30,6 +31,7 @@ using std::vector;
 char* intToType(std::string typeNum);
 #include <iostream>
 using namespace std;
+#define TOTALPKMN 803
 
 class Dex
 {
@@ -62,7 +64,7 @@ public:
 
 		int i = 1;
 		//std::cout << "ID   Name    Height   Weight Type1   Type2" << std::endl;
-		while (i <= 721)
+		while (i < TOTALPKMN)
 		{
 			dexVector.at(i).printPkmn();
 			i++;
@@ -76,7 +78,7 @@ public:
 		system("cls");
 
 		cout << "Choose a Region:" << endl;
-		cout << "1. KANTO    2. JOHTO   3. HOENN\n4. SINNOH   5. UNOVA   6. KALOS" << endl;
+		cout << "1. KANTO    2. JOHTO   3. HOENN\n4. SINNOH   5. UNOVA   6. KALOS 7. ALOLA" << endl;
 		cin >> RegionChoice; 
 
 		//KANTO
@@ -86,7 +88,7 @@ public:
 			cout << "KANTO POKEDEX" << endl;
 			while (i < 152)
 			{
-				dexVector.at(i).printPkmn();
+				this->printAt(i);
 				i++;
 			}
 		}
@@ -99,7 +101,7 @@ public:
 			i = 152;
 			while (i < 252)
 			{
-				dexVector.at(i).printPkmn();
+				this->printAt(i);
 				i++;
 			}
 		}
@@ -112,7 +114,7 @@ public:
 			i = 252;
 			while (i < 387)
 			{
-				dexVector.at(i).printPkmn();
+				this->printAt(i);
 				i++;
 			}
 		}
@@ -125,7 +127,7 @@ public:
 			i = 387;
 			while (i < 494)
 			{
-				dexVector.at(i).printPkmn();
+				this->printAt(i);
 				i++;
 			}
 		}
@@ -138,7 +140,7 @@ public:
 			i = 494;
 			while (i < 650)
 			{
-				dexVector.at(i).printPkmn();
+				this->printAt(i);
 				i++;
 			}
 		}
@@ -151,7 +153,19 @@ public:
 			i = 650;
 			while (i < 722)
 			{
-				dexVector.at(i).printPkmn();
+				this->printAt(i);
+				i++;
+			}
+		}
+
+		else if (RegionChoice == 7)
+		{
+			system("cls");
+			cout << "ALOLA POKEDEX" << endl;
+			i = 650;
+			while (i < TOTALPKMN)
+			{
+				this->printAt(i);
 				i++;
 			}
 		}
@@ -176,7 +190,7 @@ public:
 				case 'D':
 					system("cls");
 					i++;
-					if (i > 721)
+					if (i > 802)
 						i = 1;
 					else if (i < 1)
 						i = 721;
@@ -189,7 +203,7 @@ public:
 				case 'A':
 					system("cls");
 					i--;
-					if (i > 721)
+					if (i > 802)
 						i = 1;
 					else if (i < 1)
 						i = 721;
@@ -339,6 +353,16 @@ public:
 
 	}
 
+	void printAt(int i)
+	{
+		dexVector.at(i).printPkmn();
+	}
+
+	Pokemon getAt(int i)
+	{
+		return dexVector.at(i);
+	}
+
 	//This reads 'pokemon_types' and sets the type id to an integer that represents the type
 	bool Dex::initializeTypes()
 	{
@@ -347,7 +371,7 @@ public:
 		std::fstream mFile;
 		int idInt = 0;
 
-		mFile.open("Types.csv", std::ios::in);
+		mFile.open("pokemon_types.csv", std::ios::in);
 		mFile.clear();
 		mFile.seekg(0, std::ios::beg);
 		getline(mFile, str);  //eats up the header of the file
@@ -355,13 +379,6 @@ public:
 		{
 			getline(mFile, id, ',');  //reads the Pokemon ID 
 			idInt = atoi(id.c_str());
-			//while (atoi(id.c_str()) != pCur->getPokemon().getId())  //makes sure we are inserting info into the right pokemon by moving through the file 
-			//{														//till we find the correct pokemon
-			//	pCur = pCur->getNextPkmn();							//We will update this once the list is made doubly linked
-			//}
-
-
-
 
 			getline(mFile, type, ',');  //we  now get the actual type, which will be a int value representing the actual type
 		
@@ -422,7 +439,6 @@ private:
 
 	void listByTypeHelper(int type)
 	{
-	//	DexNode* pCur = headPkmn;
 		int i = 1;
 		while (i < TOTALPKMN)
 		{
@@ -432,8 +448,6 @@ private:
 			}
 			i++;
 		}
-		while(1)
-		{ }
 	}
 
 	void deleteHelper(void)
