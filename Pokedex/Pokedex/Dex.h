@@ -1,14 +1,17 @@
-#pragma once
+#ifndef DEX_H
+#define DEX_H
+
+#include "Pokemon.h"
+#include "EfficacyChart.h"
+#include "SearchHash.h"
 
 #include <fstream>
 #include <string>
-#include "DexNode.h"
+#include <iostream>
 #include <conio.h>
 #include <string.h>
 #include <vector>
 using std::vector;
-
-
 #define NORMAL 1	
 #define FIGHTING 2
 #define FLYING 3
@@ -27,9 +30,6 @@ using std::vector;
 #define DRAGON 16
 #define DARK 17
 #define FAIRY 18
-
-char* intToType(std::string typeNum);
-#include <iostream>
 using namespace std;
 #define TOTALPKMN 803
 
@@ -39,12 +39,16 @@ public:
 	Dex::Dex()
 	{
 		//headPkmn = nullptr;
+		Pokemon placeholder;
+		dexVector.push_back(placeholder);
 		currentPkmnCount = 0;
-		Pokemon newPkmn;
-		dexVector.push_back(newPkmn);
-
+		//dexVector.resize(802);
 	}
 
+	void createHash()
+	{
+		hash.createHash(this->dexVector);
+	}
 	//copy constructor
 	Dex::Dex(const Dex& other)
 	{
@@ -410,32 +414,74 @@ public:
 		//this->deleteHelper(this->headPkmn);
 	}
 
+	void showPkmnWeakness(Pokemon pkmn)
+	{
+		effectChart.displayAllWeakness(pkmn);
+	}
+
+	void findPkmnByName(string pkmnName)
+	{
+		int id = hash.findPkmn(pkmnName);
+
+		if (id != -1)
+		{
+			this->printAt(id);
+			this->showPkmnWeakness(this->getAt(id));
+		}
+		else
+			cout << pkmnName << " not found!" << endl << endl;
+	}
+
+	 char* intToType(std::string typeNum)
+	{
+		switch (atoi(typeNum.c_str()))
+		{
+		case NORMAL:
+			return "Normal";
+		case FIGHTING:
+			return "Fighting";
+		case FLYING:
+			return "Flying";
+		case POISON:
+			return "Poison";
+		case GROUND:
+			return "Ground";
+		case ROCK:
+			return "Rock";
+		case BUG:
+			return "Bug";
+		case GHOST:
+			return "Ghost";
+		case STEEL:
+			return "Steel";
+		case FIRE:
+			return "Fire";
+		case WATER:
+			return "Water";
+		case GRASS:
+			return "Grass";
+		case ELECTRIC:
+			return "Electric";
+		case PSYCHIC:
+			return "Psychic";
+		case ICE:
+			return "Ice";
+		case DRAGON:
+			return "Dragon";
+		case DARK:
+			return "Dark";
+		case FAIRY:
+			return "Fairy";
+		default:
+			break;
+		}
+	}
+
 private:
-	// DexNode* headPkmn;
-	//DexNode * lastPkmn;
 	vector<Pokemon> dexVector;
 	int currentPkmnCount;
-	
-	//Removed in favor of vector implementation of dex
-	//precondition: newNode is NOT null
-	//Should Dex ALWAYS insert at end? Well it will using this function
-	//bool Dex::insertAtEnd(DexNode* newNode)
-	//{
-	//	if (headPkmn == nullptr)
-	//	{
-	//		this->headPkmn = newNode;
-	//		this->lastPkmn = newNode;
-	//		return true;
-	//	}
-	//	else
-	//	{
-	//		newNode->setPrevPkmn(this->lastPkmn);
-	//		this->lastPkmn->setNextPkmn(newNode);  //Originally, this had the lastPkmn pointer retrieving the next pokemon and setting it's next ptr to node
-	//		this->lastPkmn = newNode;                             //We then made it so that lassPkmn has its nextPkmn set to newNode
-	//		return  true;
-	//	}
-	//	return false;
-	//}
+	EfficacyChart effectChart;
+	SearchHash hash;
 
 	void listByTypeHelper(int type)
 	{
@@ -456,47 +502,4 @@ private:
 	}
 };
 
-//char* intToType(std::string typeNum)
-//{
-//	switch (atoi(typeNum.c_str()))
-//	{
-//	case NORMAL:
-//		return "Normal";
-//	case FIGHTING:
-//		return "Fighting";
-//	case FLYING:
-//		return "Flying";
-//	case POISON:
-//		return "Poison";
-//	case GROUND:
-//		return "Ground";
-//	case ROCK:
-//		return "Rock";
-//	case BUG:
-//		return "Bug";
-//	case GHOST:
-//		return "Ghost";
-//	case STEEL:
-//		return "Steel";
-//	case FIRE:
-//		return "Fire";
-//	case WATER:
-//		return "Water";
-//	case GRASS:
-//		return "Grass";
-//	case ELECTRIC:
-//		return "Electric";
-//	case PSYCHIC:
-//		return "Psychic";
-//	case ICE:
-//		return "Ice";
-//	case DRAGON:
-//		return "Dragon";
-//	case DARK:
-//		return "Dark";
-//	case FAIRY:
-//		return "Fairy";
-//	default:
-//		break;
-//	}
-//}
+#endif

@@ -1,8 +1,8 @@
-#pragma once
+#ifndef DEXAPP_H
+#define DEXAPP_H
 
 #include "Dex.h"
-#include "SearchHash.h"
-#include "EfficacyChart.h"
+#include <fstream>
 #include <iostream>
 using namespace std;
 #define TOTALPKMN 803
@@ -14,7 +14,7 @@ public:
 	{
 		mPokeDex.initializePkmnNameHeightWeight();
 		mPokeDex.initializeTypes();
-		hash.initializeHash(mPokeDex);
+		mPokeDex.createHash();
 	}
 	void DexApp::runApp()
 	{
@@ -61,13 +61,8 @@ public:
 				cout << "Which PKMN would you like to find?" << endl;
 				cin >> name;
 
-				int id = hash.findPkmn(name);
-
-				if (id != -1)
-					mPokeDex.printAt(id);
-				else
-					cout << name << " not found!" << endl << endl;
 				
+				mPokeDex.findPkmnByName(name);
 			}
 			else if (option == 6)
 			{
@@ -84,5 +79,6 @@ public:
 	}
 private:
 	Dex mPokeDex;
-	SearchHash hash;
+	
 };
+#endif

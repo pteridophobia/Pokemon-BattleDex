@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEXNODE_H
+#define DEXNODE_H
 #include <iostream>
 #include <string>
 #include "Pokemon.h"
@@ -68,3 +69,4 @@ private:
 	DexNode* prevPkmn;
 };
 
+#endif

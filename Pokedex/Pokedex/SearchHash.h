@@ -1,31 +1,30 @@
-#pragma once
-
+#ifndef SEARCHHASH_H
+#define SEARCHHASH_H
 #include <fstream>
 #include <string>
-
 #include <conio.h>
-#include <string>
 
+#include <string>
 #include <vector>
 using namespace std;
-#define TOTALPKMN 803
 
+#define TOTALPKMN 803
 
 class SearchHash
 {
 public:
 	SearchHash()
 	{
-		hash.resize(727);
-		tableSize = 727;
-		
+		hash.resize(TOTALPKMN);
+		tableSize = 802;
+
 	}
 
-	void initializeHash(Dex pokeDex)
+	void createHash(vector<Pokemon> pkDex)
 	{
 		for (int i = 1; i < TOTALPKMN; i++)
 		{
-			addPkmn(pokeDex.getAt(i));
+			addPkmn(pkDex.at(i));
 		}
 	}
 
@@ -35,7 +34,7 @@ public:
 
 		//for (char ch : pkmnName)
 		//	 hashKey = 37 * hashKey + ch;
-		int i = 0;
+		unsigned int i = 0;
 
 		for (char ch = pkmnName[0]; i < pkmnName.length(); i++)
 		{
@@ -44,11 +43,6 @@ public:
 		}
 
 		return hashKey % tableSize;
-	}
-
-	void findPkmnHelper()
-	{
-
 	}
 
 	int findPkmn(string pkmnName)
@@ -75,14 +69,14 @@ public:
 		// In case something happens and gets all the way thru without finding anything
 		return -1;
 	}
-	
+
 
 private:
 	vector<vector<Pokemon>> hash;
 	int currentPkmnCount;
 	int tableSize;
 
-	
+
 	void addPkmn(Pokemon pkmn)
 	{
 		unsigned int hashKey = hashFunction(pkmn.getName());
@@ -90,6 +84,8 @@ private:
 
 		hash[hashKey].push_back(pkmn);
 	}
-	
+
 
 };
+
+#endif

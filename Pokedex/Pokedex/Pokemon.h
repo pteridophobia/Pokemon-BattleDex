@@ -1,7 +1,8 @@
-#pragma once
+#ifndef POKEMON_H
+#define POKEMON_H
 #include <string>
-
-
+#include <fstream>
+#include <iostream>
 
 class Pokemon
 {
@@ -150,3 +151,5 @@ private:
 	std::string mType1Name;
 	std::string mType2Name;
 };
+
+#endif
