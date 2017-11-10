@@ -20,7 +20,15 @@ public:
 
 	}
 
-	void createHash(vector<Pokemon> pkDex)
+	SearchHash(vector<Pokemon>& pkDex)
+	{
+		for (int i = 1; i < TOTALPKMN; i++)
+		{
+			addPkmn(pkDex.at(i));
+		}
+	}
+
+	void createHash(vector<Pokemon>& pkDex)
 	{
 		for (int i = 1; i < TOTALPKMN; i++)
 		{

@@ -51,9 +51,7 @@ public:
 			getline(infile, targetNum, ',');
 			getline(infile, amount, '\n');
 
-			effectChart[i][0] = stoi(damageNum);
-			effectChart[i][1] = stoi(targetNum);
-			effectChart[i][2] = stoi(amount);
+			effectChart[stoi(damageNum)][stoi(targetNum)] = stoi(amount);
 
 		}
 	}
@@ -64,37 +62,61 @@ public:
 		we should traverse the array using the PKMN types and going from 1 - 18 
 		in the damage_type ID. If the value ever equal 100, it is a weakness
 	*/
-	void displayAllWeakness(Pokemon pkmn)
+	void displayAllWeaknessResistancesImmunities(Pokemon pkmn)
 	{
 		int pkmnType1 = stoi(pkmn.getType1id());
 		int pkmnType2 = stoi(pkmn.getType2id());
+		int damage = 0;
 
-		/// Loop for pkmnType1
+		/// Loop for pkmnTypes
 		for (int i = 1; i < 19; i++)
 		{
+			damage = 0;
 			if (effectChart[i][pkmnType1] == 200)
 			{
-				cout << pkmn.getName() << " is weak to " << intToType(to_string(i)) << endl;
+				damage += 2;
 			}
-		}
-		if (pkmnType2 != 0)
-		{
-			/// Loop for pkmnType1
-			for (int i = 0; i < 18; i++)
+			else if (effectChart[i][pkmnType1] == 50)
+			{
+				damage -= 1;
+			}
+			else if (effectChart[i][pkmnType1] == 0)
+			{
+				damage -= 10;
+			}
+
+			if (pkmnType2 != -1)
 			{
 				if (effectChart[i][pkmnType2] == 200)
 				{
-					cout << pkmn.getName() << " is weak to " << intToType(to_string(i)) << endl;
+					damage += 2;
+				}
+				else if (effectChart[i][pkmnType2] == 50)
+				{
+					damage -= 1;
+				}
+				else if (effectChart[i][pkmnType2] == 0)
+				{
+					damage -= 10;
 				}
 			}
+			determineIfEffectiveResistantImmune(damage, intToType(to_string(i)));
 		}
 	}
 
-	void displayAllResistancesAndIneffects(Pokemon pkmn)
+	void determineIfEffectiveResistantImmune(int damage, string type)
 	{
-
+		if (damage == -1)
+			cout << "Resistant to " << type << endl;
+		else if (damage == -2)
+			cout << "Very resistant to " << type << endl;
+		else if (damage == 4)
+			cout << "Very weak to " << type << endl;
+		else if( damage == 2)
+			cout << "Weak to " << type << endl;
+		else if (damage <  -5)
+			cout << "Immune to " << type << endl;
 	}
-
 
 	static char* intToType(std::string typeNum)
 	{
@@ -141,7 +163,7 @@ public:
 		}
 	}
 private:
-	int effectChart[325][3];
+	int effectChart[19][19];
 };
 
 #endif

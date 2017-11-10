@@ -48,7 +48,7 @@ public:
 		std::cout << "Type 1: " << this->getType1Name() << std::endl;
 		if(!this->getType2Name().empty())
 			std::cout << "Type 2: " << this->getType2Name() << std::endl;
-		std::cout << std::endl;
+	/*	std::cout << std::endl;*/
 	}
 
 	std::string Pokemon::getName() const

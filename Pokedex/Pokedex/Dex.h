@@ -416,7 +416,8 @@ public:
 
 	void showPkmnWeakness(Pokemon pkmn)
 	{
-		effectChart.displayAllWeakness(pkmn);
+		effectChart.displayAllWeaknessResistancesImmunities(pkmn);
+		cout << endl;
 	}
 
 	void findPkmnByName(string pkmnName)
