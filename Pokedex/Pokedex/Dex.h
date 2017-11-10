@@ -36,20 +36,36 @@ using namespace std;
 class Dex
 {
 public:
+
+	/*
+		Dex():
+		Default Dex constructor. The Dex is a vector of Pokemon types. The reason for pushing
+		back an empty PKMN is because I wanted the vector to begin indexing at 1, and this was
+		just a easy to make sure it happened
+	*/
 	Dex::Dex()
 	{
-		//headPkmn = nullptr;
 		Pokemon placeholder;
 		dexVector.push_back(placeholder);
 		currentPkmnCount = 0;
-		//dexVector.resize(802);
 	}
 
+	/*
+		createHash():
+		creates search hash for name lookups. There must be a better way of doing this, because
+		right now we call createHash in DexApp.h which calls this function and then calls Hash's
+		createHash() whice makes the hash
+	*/
 	void createHash()
 	{
 		hash.createHash(this->dexVector);
 	}
-	//copy constructor
+
+	/*
+		Dex(const Dex& other):
+		Dex Copy Constructor. Uses a reference to another dex and copies it values into it.
+		Does so by copying the vector and PKMN count.
+	*/
 	Dex::Dex(const Dex& other)
 	{
 		
@@ -57,25 +73,38 @@ public:
 		this->currentPkmnCount = other.currentPkmnCount;
 	}
 
+	/*
+		~Dex():
+		Empty Destructor because default destructor is good enough
+	*/
 	Dex::~Dex()
 	{
 		
 	}
 
+	/*
+		printDex():
+		Prints out all the pokemon in the PokeDex one by one.
+	*/
 	void Dex::printDex()
 	{
 		system("cls");
 
 		int i = 1;
-		//std::cout << "ID   Name    Height   Weight Type1   Type2" << std::endl;
 		while (i < TOTALPKMN)
 		{
-			dexVector.at(i).printPkmn();
+			/*dexVector.at(i).printPkmn();*/
+			this->printAt(i);
 			i++;
 		}
 		system("pause");
 	}
 
+	/*
+		printByRegion():
+		The user chooses a region, and all the pokemon in that region are 
+		printed to the screen
+	*/
 	void printByRegion()
 	{
 		int RegionChoice = 0, i = 1;
@@ -175,6 +204,11 @@ public:
 		}
 	}
 
+	/*
+		ManualView():
+		The user begins at the first PKMN in the PokeDex (Bulbasaur) and
+		uses the keyboard to traverse through the pokedex
+	*/
 	void ManualView()
 	{
 		system("cls");
@@ -224,6 +258,11 @@ public:
 		}
 	}
 
+	/*
+		listByTypeMenu():
+		The user chooses a type, and that type is passed into listByTypeHelper()
+		and lists all the Pokemon in the PokeDex with that type
+	*/
 	void Dex::listByTypeMenu()
 	{
 		string choice;
@@ -311,6 +350,12 @@ public:
 			
 	}
 
+	/*
+		initializePkmnNameHeightWeight():
+		Reads from the file "pokemon.csv" and gets the ID, Name, Species,
+		height and weight of a PKMN and stores it in the respective slot in the
+		vector.
+	*/
 	void Dex::initializePkmnNameHeightWeight()
 	{
 		int id = 0;
@@ -320,8 +365,7 @@ public:
 		std::fstream mFile;
 
 		mFile.open("pokemon.csv", std::ios::in);
-		mFile.clear();
-		mFile.seekg(0, std::ios::beg);
+
 		getline(mFile, str);
 
 		while (!mFile.eof())
@@ -349,36 +393,42 @@ public:
 			
 			currentPkmnCount++;
 			dexVector.push_back(newPkmn);
-
-
 		}
-
-	//	return false;
 
 	}
 
+	/*
+		printAt(int i):
+		Prints the PKMN at slot i in the vector i.e prints PKMN # i
+	*/
 	void printAt(int i)
 	{
 		dexVector.at(i).printPkmn();
 	}
 
+	/*
+		getAt(i):
+		Returns the PKMN at spot i.
+		Not sure if to make this a reference or not.
+	*/
 	Pokemon getAt(int i)
 	{
 		return dexVector.at(i);
 	}
 
-	//This reads 'pokemon_types' and sets the type id to an integer that represents the type
+	/*
+		initializeTypes():
+		Reads the file "pokemon_types.csv" and gets the types for every pokemon.
+		The type is represented by an int value, which is converted to it's real value using intToType.
+	*/
 	bool Dex::initializeTypes()
 	{
-		//File Format: ID, Type ID, Slot Number
 		std::string str, id, type, slot, typeName;
 		std::fstream mFile;
 		int idInt = 0;
 
 		mFile.open("pokemon_types.csv", std::ios::in);
-		mFile.clear();
-		mFile.seekg(0, std::ios::beg);
-		getline(mFile, str);  //eats up the header of the file
+		getline(mFile, str);  //eats up the first line of the file
 		while (!mFile.eof())
 		{
 			getline(mFile, id, ',');  //reads the Pokemon ID 
@@ -409,17 +459,22 @@ public:
 		return false;
 	}
 
-	void Dex::deleteDexHelper()
-	{
-		//this->deleteHelper(this->headPkmn);
-	}
-
-	void showPkmnWeakness(Pokemon pkmn)
+	/*
+		showPkmnWeaknessResistanceImmunities(Pokemon pkmn):
+		Finds all the weakness, immunities and resistances of a PKMN and
+		prints them to the screen. Uses the efficacyChart class to do this.
+	*/
+	void showPkmnWeaknessResistanceImmunities(Pokemon pkmn)
 	{
 		effectChart.displayAllWeaknessResistancesImmunities(pkmn);
 		cout << endl;
 	}
 
+	/*
+		findPkmnByName(string pkmnName):
+		Find a PKMN using its name by using a hash table. The hash look up function
+		findPkmn() returns -1 if the pokemon does not exist. Currently case sensitive.
+	*/
 	void findPkmnByName(string pkmnName)
 	{
 		int id = hash.findPkmn(pkmnName);
@@ -427,13 +482,17 @@ public:
 		if (id != -1)
 		{
 			this->printAt(id);
-			this->showPkmnWeakness(this->getAt(id));
+			this->showPkmnWeaknessResistanceImmunities(this->getAt(id));
 		}
 		else
 			cout << pkmnName << " not found!" << endl << endl;
 	}
 
-	 char* intToType(std::string typeNum)
+	/*
+		intToType(string typeNum):
+		Takes a number that represents a type and returns actual Type name.
+	*/
+	 char* intToType(string typeNum)
 	{
 		switch (atoi(typeNum.c_str()))
 		{
@@ -484,6 +543,12 @@ private:
 	EfficacyChart effectChart;
 	SearchHash hash;
 
+	/*
+		listByTypeHelper(int type):
+		used by listByType() to list all the PKMN of a particular type.
+		Traverses through the whole list to find the right PKMN to print
+		to the screen
+	*/
 	void listByTypeHelper(int type)
 	{
 		int i = 1;
@@ -491,15 +556,10 @@ private:
 		{
 			if (stoi(dexVector.at(i).getType1id()) == type || stoi(dexVector.at(i).getType2id()) == type)
 			{
-				dexVector.at(i).printPkmn();
+				this->printAt(i);
 			}
 			i++;
 		}
-	}
-
-	void deleteHelper(void)
-	{
-		
 	}
 };
 

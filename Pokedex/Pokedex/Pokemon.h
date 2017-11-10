@@ -7,9 +7,14 @@
 class Pokemon
 {
 public:
+	/*
+		Pokemon():
+		Default Constructor for a Pokemon. Shouldn't be used except for filling
+		that first spot in the vector.
+	*/
 	Pokemon::Pokemon()
 	{
-		mName = "";
+		mName = "MissinNo.";
 		mId = 0;
 		mSpecies = "";
 		mHeight = 0;
@@ -21,6 +26,10 @@ public:
 
 	}
 
+	/*
+		Pokemon(const Pokemon& copy):
+		Copy constructor for Pokemon class.
+	*/
 	Pokemon::Pokemon(const Pokemon& copy)
 	{
 		mName = copy.mName;
@@ -34,10 +43,15 @@ public:
 		mType2Name = copy.mType2Name;
 
 	}
+
 	Pokemon::~Pokemon()
 	{
 	}
 
+	/*
+		printPkmn():
+		Prints out all the data of a pokemon to the screen.
+	*/
 	void Pokemon::printPkmn()
 	{
 
@@ -127,6 +141,10 @@ public:
 		mType2Name = newType2;
 	}
 
+	/*
+		operator= (const Pokemon &rhs):
+		Copy assignment operator for a Pokemon
+	*/
 	Pokemon& Pokemon::operator=(const Pokemon & rhs)
 	{
 		mName = rhs.mName;

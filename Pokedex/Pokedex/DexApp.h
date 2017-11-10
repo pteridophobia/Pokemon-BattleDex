@@ -10,22 +10,44 @@ using namespace std;
 class DexApp
 {
 public:
+	/*
+		DexApp():
+		Default constructors that initializes the pokedex by ready all PKMN
+		and their respective info from files. It also creates the search hash
+		for lookups by name
+	*/
 	DexApp::DexApp()
 	{
 		mPokeDex.initializePkmnNameHeightWeight();
 		mPokeDex.initializeTypes();
 		mPokeDex.createHash();
 	}
+
+	/*
+		runApp():
+		Main function for using the Pokedex. Brings up the Dex Menu
+	*/
 	void DexApp::runApp()
 	{
 		this->dexMenu();
 	}
 
+	/*
+		~DexApp():
+		Dex destructor. Currently empty because the default constructor
+		can take care of everything itself
+	*/
 	DexApp::~DexApp()
 	{
-		this->mPokeDex.deleteDexHelper();
+		//this->mPokeDex.deleteDexHelper();
 	}
 
+	/*
+		dexMenu():
+		Presents the user with many options on displaying the info of the dex. 
+		The choice selected by the user if handled by several if statements.
+		This might be changed in favor of a switch statement
+	*/
 	void DexApp::dexMenu(void)
 	{
 		while (1)
@@ -77,6 +99,7 @@ public:
 			}
 		}
 	}
+
 private:
 	Dex mPokeDex;
 	
