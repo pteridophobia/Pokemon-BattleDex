@@ -3,7 +3,7 @@
 
 #include "Pokemon.h"
 #include "EfficacyChart.h"
-#include "SearchHash.h"
+#include "PokeHash.h"
 
 #include <fstream>
 #include <string>
@@ -558,7 +558,7 @@ public:
 	*/
 	void findPkmnByName(string pkmnName)
 	{
-		int id = hash.findPkmn(pkmnName);
+		int id = hash.findValue(pkmnName);
 
 		if (id != -1)
 		{
@@ -622,7 +622,7 @@ private:
 	vector<Pokemon> dexVector;
 	int currentPkmnCount;
 	EfficacyChart effectChart;
-	SearchHash hash;
+	PokeHash hash;
 
 	/*
 		listByTypeHelper(int type):
