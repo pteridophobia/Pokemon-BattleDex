@@ -17,7 +17,6 @@ public:
 	{
 		hash.resize(TOTALPKMN);
 		tableSize = 802;
-
 	}
 
 	SearchHash(vector<Pokemon>& pkDex)
@@ -36,47 +35,9 @@ public:
 		}
 	}
 
-	int hashFunction(string pkmnName)
-	{
-		unsigned int hashKey = 0;
+	
 
-		//for (char ch : pkmnName)
-		//	 hashKey = 37 * hashKey + ch;
-		unsigned int i = 0;
-
-		for (char ch = pkmnName[0]; i < pkmnName.length(); i++)
-		{
-			ch = pkmnName[i];
-			hashKey = 37 * hashKey + ch;
-		}
-
-		return hashKey % tableSize;
-	}
-
-	int findPkmn(string pkmnName)
-	{
-		int hashKey = hashFunction(pkmnName);
-		int i = 0, success = -1;
-
-		if (hash[hashKey].size() == 0)
-		{
-			return -1;
-		}
-
-		vector<Pokemon>::iterator itr = hash[hashKey].begin();
-
-		while (itr != hash[hashKey].end())
-		{
-			if (itr->getName() == pkmnName)
-			{
-				return itr->getId();
-			}
-			itr++;
-		}
-
-		// In case something happens and gets all the way thru without finding anything
-		return -1;
-	}
+	
 
 
 private:

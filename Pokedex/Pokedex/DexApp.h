@@ -21,6 +21,8 @@ public:
 		mPokeDex.initializePkmnNameHeightWeight();
 		mPokeDex.initializeTypes();
 		mPokeDex.createHash();
+		mPokeDex.initializeAbilities();
+		mPokeDex.initializeStats();
 	}
 
 	/*

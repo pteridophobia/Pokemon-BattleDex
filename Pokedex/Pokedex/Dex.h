@@ -459,6 +459,86 @@ public:
 		return false;
 	}
 
+	void initializeAbilities()
+	{
+		fstream abilityNames("abilities.csv"), abilities("pokemon_abilities.csv");
+		string pkmnID, abilityID, abilityName, str;
+		string abilityNameArray[233];
+
+		getline(abilityNames, str);  //eats up the first line of the file
+		//// Create array with all the ability names for easy index accessing
+		for (int i = 1; i < 233; i++)
+		{
+			getline(abilityNames, abilityID, ',');
+			getline(abilityNames, abilityName, ',');
+
+			abilityNameArray[stoi(abilityID)] = abilityName;
+			getline(abilityNames, str, '\n');
+		}
+
+		// Now we read the pokemon_abilities.csv file and add abilities to all the PKMN
+		getline(abilities, str);  //eats up the first line of the file
+		while (!abilities.eof())
+		{
+			getline(abilities, pkmnID, ',');
+			getline(abilities, abilityID, ',');
+
+			dexVector.at(stoi(pkmnID)).addAbility(abilityNameArray[stoi(abilityID)]);
+
+			getline(abilities, str, '\n');
+		}
+	}
+
+	void initializeStats()
+	{
+		fstream statsFile;
+		string str, stat;
+		int pkmnID = 1;
+		Stats newStats;
+		/*
+			STATS COME IN THIS ORDER: HP, attack, defense, sp. atk, sp. def, speed
+		*/
+		statsFile.open("pokemon_stats.csv");
+		getline(statsFile, str);  //eats up the first line of the file
+		while (!statsFile.eof())
+		{
+			for (int i = 1; i < 7; i++)
+			{
+				getline(statsFile, str, ',');
+				getline(statsFile, str, ',');
+				getline(statsFile, stat, ',');
+
+				if (1 == i)
+				{
+					newStats.HP = stoi(stat);
+				}
+				else if (2 == i)
+				{
+					newStats.attack = stoi(stat);
+				}
+				else if (3 == i)
+				{
+					newStats.defense = stoi(stat);
+				}
+				else if (4 == i)
+				{
+					newStats.SpAtk = stoi(stat);
+				}
+				else if (5 == i)
+				{
+					newStats.SpDef = stoi(stat);
+				}
+				else
+				{
+					newStats.speed = stoi(stat);
+				}
+				getline(statsFile, str, '\n');
+			}
+
+			dexVector.at(pkmnID).setStats(newStats);
+			pkmnID++;
+		}
+	}
 	/*
 		showPkmnWeaknessResistanceImmunities(Pokemon pkmn):
 		Finds all the weakness, immunities and resistances of a PKMN and
@@ -468,6 +548,7 @@ public:
 	{
 		effectChart.displayAllWeaknessResistancesImmunities(pkmn);
 		cout << endl;
+		system("pause");
 	}
 
 	/*

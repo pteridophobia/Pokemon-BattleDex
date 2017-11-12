@@ -3,6 +3,18 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <vector>
+using  namespace std;
+
+typedef struct stats
+{
+	int HP;
+	int attack;
+	int defense;
+	int SpAtk;
+	int SpDef;
+	int speed;
+}Stats;
 
 class Pokemon
 {
@@ -54,15 +66,39 @@ public:
 	*/
 	void Pokemon::printPkmn()
 	{
-
+		system("cls");
 		std::cout << "# " << this->getId() << std::endl;
 		std::cout << this->getName() << std::endl;
 		std::cout << "Height: " << this->getHeight() << std::endl;
 		std::cout << "Weight: " << this->getWeight() << std::endl;
-		std::cout << "Type 1: " << this->getType1Name() << std::endl;
-		if(!this->getType2Name().empty())
-			std::cout << "Type 2: " << this->getType2Name() << std::endl;
-	/*	std::cout << std::endl;*/
+		std::cout << "Type: " << this->getType1Name();
+		if (!this->getType2Name().empty())
+			std::cout << " / " << this->getType2Name() << std::endl;
+		else
+			std::cout << std::endl;
+		printAbilities();
+		printStats();
+		
+	}
+
+	void Pokemon::printAbilities()
+	{
+		cout << "Abilities: ";
+		for (int i = 0; i < mAbilities.size(); i++)
+		{
+			cout << mAbilities.at(i) << "  ";
+		}
+		cout << endl;
+	}
+
+	void Pokemon::printStats()
+	{
+		cout << "HP      " << baseStats.HP << endl;
+		cout << "ATTACK  " << baseStats.attack << endl;
+		cout << "DEFENSE " << baseStats.defense << endl;
+		cout << "SP. ATK " << baseStats.SpAtk << endl;
+		cout << "SP. DEF " << baseStats.SpDef << endl;
+		cout << "SPEED   " << baseStats.speed << endl;
 	}
 
 	std::string Pokemon::getName() const
@@ -140,7 +176,14 @@ public:
 	{
 		mType2Name = newType2;
 	}
-
+	void addAbility(const std::string newAbility)
+	{
+		mAbilities.push_back(newAbility);
+	}
+	void Pokemon::setStats(const Stats & pkmnStats)
+	{
+		baseStats = pkmnStats;
+	}
 	/*
 		operator= (const Pokemon &rhs):
 		Copy assignment operator for a Pokemon
@@ -168,6 +211,9 @@ private:
 	std::string mType2id;
 	std::string mType1Name;
 	std::string mType2Name;
+	std::vector<std::string> mAbilities;
+	Stats baseStats;
+
 };
 
 #endif

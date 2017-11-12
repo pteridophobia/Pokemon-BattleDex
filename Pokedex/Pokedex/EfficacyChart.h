@@ -64,8 +64,8 @@ public:
 	*/
 	void displayAllWeaknessResistancesImmunities(Pokemon pkmn)
 	{
-		int pkmnType1 =	pkmn.getType1id;
-		int pkmnType2 = pkmn.getType2id;
+		int pkmnType1 =	stoi(pkmn.getType1id());
+		int pkmnType2 = stoi(pkmn.getType2id());
 		int damage = 0;
 
 		/// Loop for pkmnTypes
