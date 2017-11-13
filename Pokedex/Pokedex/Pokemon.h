@@ -16,6 +16,13 @@ typedef struct stats
 	int speed;
 }Stats;
 
+typedef struct ability
+{
+	string abilityName;
+	string abilityDef;
+	int abilityID;
+}Ability;
+
 class Pokemon
 {
 public:
@@ -66,7 +73,6 @@ public:
 	*/
 	void Pokemon::printPkmn()
 	{
-		system("cls");
 		std::cout << "# " << this->getId() << std::endl;
 		std::cout << this->getName() << std::endl;
 		std::cout << "Height: " << this->getHeight() << std::endl;
@@ -76,9 +82,14 @@ public:
 			std::cout << " / " << this->getType2Name() << std::endl;
 		else
 			std::cout << std::endl;
+	}
+
+	void Pokemon::fullPrint()
+	{
+		system("cls");
+		this->printPkmn();
 		printAbilities();
 		printStats();
-		
 	}
 
 	void Pokemon::printAbilities()
@@ -86,9 +97,8 @@ public:
 		cout << "Abilities: ";
 		for (int i = 0; i < mAbilities.size(); i++)
 		{
-			cout << mAbilities.at(i) << "  ";
+			cout << mAbilities.at(i).abilityName << ":  " << mAbilities.at(i).abilityDef << endl;
 		}
-		cout << endl;
 	}
 
 	void Pokemon::printStats()
@@ -176,7 +186,7 @@ public:
 	{
 		mType2Name = newType2;
 	}
-	void addAbility(const std::string newAbility)
+	void addAbility(const Ability newAbility)
 	{
 		mAbilities.push_back(newAbility);
 	}
@@ -211,7 +221,7 @@ private:
 	std::string mType2id;
 	std::string mType1Name;
 	std::string mType2Name;
-	std::vector<std::string> mAbilities;
+	std::vector<Ability> mAbilities;
 	Stats baseStats;
 
 };

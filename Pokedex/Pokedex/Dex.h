@@ -95,6 +95,7 @@ public:
 		{
 			/*dexVector.at(i).printPkmn();*/
 			this->printAt(i);
+			cout << endl;
 			i++;
 		}
 		system("pause");
@@ -406,6 +407,11 @@ public:
 		dexVector.at(i).printPkmn();
 	}
 
+	void fullPrintAt(int i)
+	{
+		dexVector.at(i).fullPrint();
+	}
+
 	/*
 		getAt(i):
 		Returns the PKMN at spot i.
@@ -461,19 +467,22 @@ public:
 
 	void initializeAbilities()
 	{
-		fstream abilityNames("abilities.csv"), abilities("pokemon_abilities.csv");
-		string pkmnID, abilityID, abilityName, str;
-		string abilityNameArray[233];
+		fstream abilityName("Ability.csv"), abilities("pokemon_abilities.csv") ;
+		string pkmnID, Num, Name, str, Effect;
+		Ability abilityArray[233];
+		Ability newAbility;
 
-		getline(abilityNames, str);  //eats up the first line of the file
+		getline(abilityName, str);  //eats up the first line of the file
 		//// Create array with all the ability names for easy index accessing
 		for (int i = 1; i < 233; i++)
 		{
-			getline(abilityNames, abilityID, ',');
-			getline(abilityNames, abilityName, ',');
+			getline(abilityName, Num, ',');
+			getline(abilityName, Name, ',');
+			getline(abilityName, Effect, '\n');
 
-			abilityNameArray[stoi(abilityID)] = abilityName;
-			getline(abilityNames, str, '\n');
+			abilityArray[stoi(Num)].abilityName = Name;
+			abilityArray[stoi(Num)].abilityID = stoi(Num);
+			abilityArray[stoi(Num)].abilityDef = Effect;
 		}
 
 		// Now we read the pokemon_abilities.csv file and add abilities to all the PKMN
@@ -481,11 +490,63 @@ public:
 		while (!abilities.eof())
 		{
 			getline(abilities, pkmnID, ',');
-			getline(abilities, abilityID, ',');
+			getline(abilities, Num, ',');
 
-			dexVector.at(stoi(pkmnID)).addAbility(abilityNameArray[stoi(abilityID)]);
+
+			newAbility.abilityName = abilityArray[stoi(Num)].abilityName;
+			newAbility.abilityDef = abilityArray[stoi(Num)].abilityDef;
+			newAbility.abilityID = abilityArray[stoi(Num)].abilityID;
+			dexVector.at(stoi(pkmnID)).addAbility(newAbility);
 
 			getline(abilities, str, '\n');
+		}
+	}
+
+	void fixAbilityArray(Ability arr[])
+	{
+		fstream newFile("Abilities.txt");
+		string  lookupName, realName, effect, str;
+
+		while (!newFile.eof())
+		{
+			getline(newFile, str, '/');
+			getline(newFile, str, '/');
+			//// Getting name of Ability
+			getline(newFile, lookupName, '"');
+			getline(newFile, str, '>');
+			getline(newFile, realName, '<');
+			getline(newFile, str, '\n');
+			getline(newFile, str, '\n');
+
+			//// Getting effect of ability
+			getline(newFile, str, '>');
+			getline(newFile, effect, '<');
+			getline(newFile, str, '\n');
+			getline(newFile, str, '\n');
+			getline(newFile, str, '\n');
+			getline(newFile, str, '\n');
+			
+			for (int i = 1; i < 233; i++)
+			{
+				if (arr[i].abilityName == lookupName)
+				{
+					arr[i].abilityName = realName;
+					arr[i].abilityDef = effect;
+					break;
+				}
+			}
+		}
+	}
+
+	void printFixedAbilities(Ability arr[])
+	{
+		fstream outfile("ability.csv");
+
+		outfile << "AbilityID,AbilityName,AbilityEffect" << endl;
+
+		for (int i = 1; i < 233; i++)
+		{
+			outfile << arr[i].abilityID << "," << arr[i].abilityName << "," << arr[i].abilityDef << endl;
 		}
 	}
 
@@ -562,7 +623,7 @@ public:
 
 		if (id != -1)
 		{
-			this->printAt(id);
+			this->fullPrintAt(id);
 			this->showPkmnWeaknessResistanceImmunities(this->getAt(id));
 		}
 		else
@@ -623,6 +684,7 @@ private:
 	int currentPkmnCount;
 	EfficacyChart effectChart;
 	PokeHash hash;
+	Ability abilityHash;
 
 	/*
 		listByTypeHelper(int type):
