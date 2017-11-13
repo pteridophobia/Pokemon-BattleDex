@@ -4,7 +4,7 @@
 #include "Pokemon.h"
 #include "EfficacyChart.h"
 #include "PokeHash.h"
-
+#include "AbilityHash.h"
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -630,6 +630,17 @@ public:
 			cout << pkmnName << " not found!" << endl << endl;
 	}
 
+	void findAbility(string ability)
+	{
+		int id = abilityHash.findValue(ability);
+
+		if (-1 == id)
+		{
+			cout << "Ability not found!" << endl;
+		}
+
+	}
+
 	/*
 		intToType(string typeNum):
 		Takes a number that represents a type and returns actual Type name.
@@ -684,7 +695,7 @@ private:
 	int currentPkmnCount;
 	EfficacyChart effectChart;
 	PokeHash hash;
-	Ability abilityHash;
+	AbilityHash abilityHash;
 
 	/*
 		listByTypeHelper(int type):

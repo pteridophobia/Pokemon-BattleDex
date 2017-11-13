@@ -384,7 +384,7 @@ id,identifier,species_id,height,weight,base_experience,order,is_default
 383,groudon,383,35,9500,302,483,1
 384,rayquaza,384,70,2065,306,485,1
 385,jirachi,385,3,11,270,487,1
-386,deoxys-normal,386,17,608,270,488,1
+386,deoxys,386,17,608,270,488,1
 387,turtwig,387,4,102,64,492,1
 388,grotle,388,11,970,142,493,1
 389,torterra,389,22,3100,236,494,1

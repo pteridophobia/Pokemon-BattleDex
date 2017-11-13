@@ -40,6 +40,7 @@ public:
 
 	int findValue(string value)
 	{
+		value = inputFixer(value);
 		int hashKey = hashFunction(value);
 		int i = 0, success = -1;
 
@@ -71,6 +72,19 @@ private:
 		hash[hashKey].push_back(value);
 	}
 
+	string inputFixer(string value)
+	{
+		for (int i = 0; i < value.size(); i++)
+		{
+			if (value[i] == ' ')
+			{
+				value[i] = '-';
+			}
+			else
+				value[i] = tolower(value[i]);
+		}
+		return value;
+	}
 };
 
 #endif

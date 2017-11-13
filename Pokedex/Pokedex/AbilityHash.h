@@ -18,7 +18,7 @@ public:
 	{
 		hash.resize(233);
 		tableSize = 233;
-		initializaHash;
+		initializaHash();
 	}
 
 	AbilityHash(vector<Ability>& list)
@@ -74,7 +74,9 @@ public:
 		{
 			if (itr->abilityName == value)
 			{
-				cout << itr->abilityDef << endl;
+				system("cls");
+				cout << "Ability: " << itr->abilityName << endl;
+				cout << itr->abilityDef << endl << endl;
 				return 1;
 				//return itr->getId();
 			}
